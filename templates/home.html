@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tehnocijene.me</title>
+  <style>
+    :root {
+      --plava: #0047ba;
+      --zuta: #ffd23f;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f8f9fc;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+    }
+    .logo img {
+      max-width: 250px;
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--plava);
+      margin: 0.5rem 0;
+    }
+    .slogan {
+      font-size: 1.2rem;
+      color: #555;
+      margin-bottom: 2rem;
+    }
+    a.button {
+      background-color: var(--plava);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+    a.button:hover {
+      background-color: #003b9e;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">
+    <img src="/static/logo.png" alt="Tehnocijene.me logo">
+  </div>
+  <p class="slogan">Tvoj šoping kompas</p>
+  <a href="/pretraga" class="button">Pronađi najbolju cijenu</a>
+</body>
+</html>

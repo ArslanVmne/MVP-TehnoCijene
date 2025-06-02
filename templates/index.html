@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tehnocijene.me</title>
+  <style>
+    :root {
+      --plava: #0047ba;
+      --zuta: #ffd23f;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fc;
+      margin: 0;
+      padding: 2rem;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .logo-container {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .logo-container img {
+      max-width: 240px;
+      height: auto;
+    }
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+    .filter-bar input[type="text"],
+    .filter-bar input[type="number"] {
+      padding: 10px;
+      width: 220px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .filter-bar button {
+      padding: 10px 20px;
+      background-color: var(--plava);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .filter-bar button:hover {
+      background-color: #003b9e;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #e0e0e0;
+      text-align: left;
+    }
+    th {
+      background-color: var(--plava);
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    .source {
+      font-weight: bold;
+      color: var(--plava);
+    }
+    a {
+      color: var(--plava);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo-container" style="text-align: left; margin-bottom: 1rem;">
+  <a href="/pretraga"><img src="/static/logo.png" alt="Tehnocijene.me logo"></a>
+</div>
+
+    <form method="get" class="filter-bar" oninput="autoReset(this)">
+      <input type="text" name="q" placeholder="Pretraži po modelu (npr. Lenovo IdeaPad)" value="{{ query }}">
+      <input type="number" step="50" name="min" placeholder="Min. cijena (€)" value="{{ min_price }}">
+      <input type="number" step="50" name="max" placeholder="Max. cijena (€)" value="{{ max_price }}">
+      <button type="submit">Filtriraj</button>
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>Najniža cijena (€)</th>
+          <th>Prodavnica</th>
+          <th>Link</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for laptop in laptops %}
+        <tr>
+          <td>{{ laptop.Model }}</td>
+          <td>{{ laptop['Najniža cijena (€)'] }}</td>
+          <td class="source">{{ laptop.Prodavnica }}</td>
+          <td><a href="{{ laptop.Link }}" target="_blank">Otvori</a></td>
+        </tr>
+        {% endfor %}
+      {% if laptops|length == 0 %}
+        <tr><td colspan="4" style="text-align: center; padding: 20px;">Nema rezultata za traženi model.</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+
+    <div style="text-align: center; margin-top: 2.5rem;">
+  {% if pages > 1 %}
+    {% if page > 1 %}
+      <a href="?q={{ query }}&min={{ min_price }}&max={{ max_price }}&page=1" style="margin: 0 10px; padding: 6px 12px; background-color: var(--plava); color: white; border-radius: 4px; text-decoration: none;">&laquo;&laquo; Prva</a>
+      <a href="?q={{ query }}&min={{ min_price }}&max={{ max_price }}&page={{ page - 1 }}" style="margin: 0 10px; padding: 6px 12px; background-color: var(--plava); color: white; border-radius: 4px; text-decoration: none;">&laquo; Prethodna</a>
+    {% endif %}
+
+    {% set page_range = range(max(1, page - 3), min(pages + 1, page + 4)) %}
+    {% for p in page_range %}
+      {% if p == page %}
+        <strong style="margin: 0 6px; font-weight: bold;">{{ p }}</strong>
+      {% else %}
+        <a href="?q={{ query }}&min={{ min_price }}&max={{ max_price }}&page={{ p }}" style="margin: 0 6px; padding: 6px 12px; background-color: var(--plava); color: white; border-radius: 4px; text-decoration: none;">{{ p }}</a>
+      {% endif %}
+    {% endfor %}
+
+    {% if page < pages %}
+      <a href="?q={{ query }}&min={{ min_price }}&max={{ max_price }}&page={{ page + 1 }}" style="margin: 0 10px; padding: 6px 12px; background-color: var(--plava); color: white; border-radius: 4px; text-decoration: none;">Sljedeća &raquo;</a>
+      <a href="?q={{ query }}&min={{ min_price }}&max={{ max_price }}&page={{ pages }}" style="margin: 0 10px; padding: 6px 12px; background-color: var(--plava); color: white; border-radius: 4px; text-decoration: none;">Posljednja &raquo;&raquo;</a>
+    {% endif %}
+  {% endif %}
+</div>
+  </div>
+<script>
+  function autoReset(form) {
+    const inputs = form.querySelectorAll('input');
+    const allEmpty = Array.from(inputs).every(input => !input.value);
+    if (allEmpty) {
+      window.location.href = window.location.pathname;
+    }
+  }
+window.scrollTo({ top: 0, behavior: 'smooth' });
+</script>
+</body>
+</html>
