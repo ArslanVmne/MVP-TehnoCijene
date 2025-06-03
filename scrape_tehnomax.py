@@ -13,7 +13,7 @@ def scrape_tehnomax_requests():
 
     for page in range(1, 9):  
         url = base_url.format(page)
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=headers, proxies=proxies)
 
         if response.status_code != 200:
             print(f"[Greška] Status kod: {response.status_code} na stranici {page}")
