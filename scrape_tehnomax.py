@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+from proxies import proxies
 
 def scrape_tehnomax_requests():
     base_url = "https://tehnomax.me/racunari-i-komponente/laptop-racunari/{}/?mod=catalog&op=browse&view=category&sef_name=racunari-i-komponente%2Flaptop-racunari&filters%5Bstock%5D%5B0%5D=dostupno"

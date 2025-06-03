@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+from proxies import proxies
 
 def scrape_pcgamer_laptops():
     base_url = "https://pc-gamer.me/c/Laptop?sort=&discounts=&price_min=&price_max=&price_min_mob=&price_max_mob=&page={}"
