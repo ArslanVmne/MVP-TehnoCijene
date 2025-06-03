@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-from proxies import proxies
 
 def scrape_pcgamer_laptops():
     base_url = "https://pc-gamer.me/c/Laptop?sort=&discounts=&price_min=&price_max=&price_min_mob=&price_max_mob=&page={}"
@@ -13,7 +12,7 @@ def scrape_pcgamer_laptops():
 
     for page in range(1, 11): 
         url = base_url.format(page)
-        response = requests.get(url, headers=headers, proxies=proxies)
+        response = requests.get(url, headers=headers)
 
         if response.status_code != 200:
             print(f"[Greška] Status kod: {response.status_code} na stranici {page}")

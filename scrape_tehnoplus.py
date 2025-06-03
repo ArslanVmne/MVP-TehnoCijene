@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-from proxies import proxies
 
 def scrape_tehnoplus_requests():
     base_url = "https://tehnoplus.me/racunar-laptop-tablet/laptop-racunari/?limit=40&sort=1&page={}&manufacturer=0&attr=0&price=0&category_checked=0"
@@ -13,7 +12,7 @@ def scrape_tehnoplus_requests():
 
     for page in range(1, 4): 
         url = base_url.format(page)
-        response = requests.get(url, headers=headers, proxies=proxies)
+        response = requests.get(url, headers=headers)
 
         if response.status_code != 200:
             print(f"[Greška] Status kod: {response.status_code} na stranici {page}")
