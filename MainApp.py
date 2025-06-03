@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request
 import pandas as pd
 from math import ceil
+import subprocess
+
 app = Flask(__name__)
 
 @app.route("/")
@@ -21,6 +23,8 @@ def pretraga():
     if max_price is not None:
         df = df[df["Najniža cijena (€)"] <= max_price]
 
+    # Sortiranje po cijeni rastuće
+    df = df.sort_values("Najniža cijena (€)")
 
     per_page = 20
     page = int(request.args.get("page", 1))
@@ -30,7 +34,6 @@ def pretraga():
     pages = ceil(total / per_page)
     df_page = df.iloc[start:end]
 
-    df = df.sort_values("Najniža cijena (€)")
     return render_template(
         "index.html",
         laptops=df_page.to_dict(orient="records"),
@@ -44,7 +47,6 @@ def pretraga():
     )
 
 if __name__ == "__main__":
-    import subprocess
     print("Ažuriranje podataka...")
     subprocess.run(["python", "scrape_tehnomax.py"])
     subprocess.run(["python", "scrape_tehnoplus.py"])
@@ -52,4 +54,3 @@ if __name__ == "__main__":
     subprocess.run(["python", "uporedjivanje.py"])
     print("Završeno. Pokrećem aplikaciju...")
     app.run(debug=True, use_reloader=False)
-
